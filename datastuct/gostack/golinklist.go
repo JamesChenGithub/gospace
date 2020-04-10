@@ -1,6 +1,9 @@
 package gostack
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type GoLinkListNode struct {
 	Value interface{}
@@ -94,4 +97,47 @@ func (list *GoLinkList)ForEach(foreach func(index int, node *GoLinkListNode)) {
 			index++
 		}
 	}
+}
+
+func (list *GoLinkList)Search(seachFunc func(index int, node *GoLinkListNode,) bool) {
+	if seachFunc != nil {
+		next := list.Next
+		index := 0
+		for next != nil  {
+			finded := seachFunc(index, next)
+			if finded {
+				break
+			}
+			next = next.Next
+			index++
+		}
+	}
+}
+
+func (list *GoLinkListNode)Reverse() {
+	next := list.Next
+
+	if next != nil && next.Next == nil {
+		return
+	}
+	var nextPre *GoLinkListNode = nil
+	for next != nil {
+		tmp := next.Next
+		next.Next = nextPre
+		nextPre = next
+		next = tmp
+	}
+	list.Next = nextPre
+}
+
+func (list GoLinkList)Print() {
+	next := list.Next
+
+	for next != nil  {
+		fmt.Printf("(%v)", next.Value)
+		if next.Next != nil {
+			fmt.Print("-->")
+		}
+		next = next.Next
+ 	}
 }
