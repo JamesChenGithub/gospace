@@ -71,6 +71,27 @@ func (list *GoLinkList)InsertAfter(node *GoLinkListNode, value interface{}) (suc
 	}
 }
 
-func (list *GoLinkList) Find(value interface{}) (bool, *GoLinkListNode) {
+func (list GoLinkList) Find(value interface{}) (bool, *GoLinkListNode) {
+	next := list.Next
+	for next != nil  {
+		if next.Value == value {
+			return true, next
+		}
+		next = next.Next
+	}
 
+	return false, nil
+}
+
+
+func (list *GoLinkList)ForEach(foreach func(index int, node *GoLinkListNode)) {
+	if foreach != nil {
+		next := list.Next
+		index := 0
+		for next != nil  {
+			foreach(index, next)
+			next = next.Next
+			index++
+		}
+	}
 }
