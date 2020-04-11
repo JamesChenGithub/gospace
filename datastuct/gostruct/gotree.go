@@ -1,4 +1,4 @@
-package gotree
+package gostruct
 
 import "fmt"
 
