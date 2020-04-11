@@ -112,7 +112,7 @@ func InsertSort(array []int, compare func(int, int) bool) {
 	swapCount := 0
 	defer func() {
 		PrintArray(array, "排序结果为")
-		fmt.Println("======= 暴力排序:结束, 共比较交换:(", compareCount, ",", swapCount , ")次 =========\n\n")
+		fmt.Println("======= 插入排序:结束, 共比较交换:(", compareCount, ",", swapCount , ")次 =========\n\n")
 	}()
 	PrintArray(array, "原数组")
 	if compare == nil {
@@ -149,7 +149,7 @@ func InsertSort2(array []int, compare func(int, int) bool) {
 	swapCount := 0
 	defer func() {
 		PrintArray(array, "排序结果为")
-		fmt.Println("======= 暴力排序:结束, 共比较交换:(", compareCount, ",", swapCount , ")次 =========\n\n")
+		fmt.Println("======= 插入排序:结束, 共比较交换:(", compareCount, ",", swapCount , ")次 =========\n\n")
 	}()
 	PrintArray(array, "原数组")
 	if compare == nil {
@@ -182,3 +182,41 @@ func InsertSort2(array []int, compare func(int, int) bool) {
 		PrintArray(array, tip)
 	}
 }
+
+func SelectSort(array []int, compare func(int, int) bool) {
+	fmt.Println("======= 选择排序:开始 =========")
+	compareCount := 0
+	swapCount := 0
+	defer func() {
+		PrintArray(array, "选择结果为")
+		fmt.Println("======= 选择排序:结束, 共比较交换:(", compareCount, ",", swapCount , ")次 =========\n\n")
+	}()
+	PrintArray(array, "原数组")
+	if compare == nil {
+		compare = func(i int, i2 int) bool {
+			return i <= i2
+		}
+	}
+
+	len := len(array)
+
+	for i := 0; i < len; i++ {
+		min := array[i]
+		index := i
+		for j := i + 1; j < len; j++ {
+			isMin := compare(min, array[j])
+			compareCount++
+			if !isMin {
+				min = array[j]
+				index = j
+			}
+		}
+		if i != index {
+			Swap(&array[i], &array[index])
+			swapCount++
+		}
+		tip := "第" + strconv.Itoa(i) + "排序"
+		PrintArray(array, tip)
+	}
+}
+

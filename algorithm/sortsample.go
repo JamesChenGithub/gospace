@@ -8,7 +8,7 @@ import (
 func main() {
 	{
 		fmt.Println("用例:")
-		array := []int{1, 3, 5, 7, 0, 2, 4, 6, 8, 9}
+		array := []int{1, 3, 5, 7, 0, 2, 4, 6, 9, 8}
 		//array := []int{1, 5, 0 , 7, 3}
 		{
 			copyArray := make([]int, len(array))
@@ -30,6 +30,12 @@ func main() {
 			copyArray := make([]int, len(array))
 			copy(copyArray, array)
 			sort.InsertSort2(copyArray, nil)
+		}
+
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.SelectSort(copyArray, nil)
 		}
 	}
 
