@@ -2,8 +2,40 @@ package main
 
 import (
 	"./sort"
+	"fmt"
 )
+
 func main() {
-	array := []int{1,3,5,7,9,2,4,6,8}
-	sort.BubbleSort(array, nil)
+	{
+		fmt.Println("用例:")
+		array := []int{1, 3, 5, 7, 0, 2, 4, 6, 8, 9}
+		//array := []int{1, 5, 0 , 7, 3}
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.ViolenceSort(copyArray, nil)
+		}
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.BubbleSort(copyArray, nil)
+		}
+	}
+
+
+	{
+		fmt.Println("用例:")
+		array := []int{1,2,3,4,5}
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.ViolenceSort(copyArray, nil)
+		}
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.BubbleSort(copyArray, nil)
+		}
+	}
+
 }

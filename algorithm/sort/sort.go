@@ -25,13 +25,16 @@ func Swap(a *int, b *int)  {
 	}
 }
 
-func BubbleSort(array []int, compare func(int, int) bool)  {
-	fmt.Print("======= 冒泡排序:开始 =========")
-	defer fmt.Print("======= 冒泡排序:结束 =========")
+func ViolenceSort(array []int, compare func(int, int) bool)  {
+	fmt.Println("======= 暴力排序:开始 =========")
+	defer func() {
+		PrintArray(array, "排序结果为")
+		fmt.Println("======= 暴力排序:结束 =========\n\n")
+	}()
 	PrintArray(array, "原数组")
 	if compare == nil {
 		compare = func(i int, i2 int) bool {
-			return i < i2
+			return i <= i2
 		}
 	}
 
@@ -47,4 +50,47 @@ func BubbleSort(array []int, compare func(int, int) bool)  {
 		PrintArray(array, tip)
 	}
 
+}
+
+func BubbleSort(array []int, compare func(int, int) bool)  {
+	fmt.Println("======= 冒泡排序:开始 =========")
+	defer func() {
+		PrintArray(array, "排序结果为")
+		fmt.Println("======= 冒泡排序:结束 =========\n\n")
+	}()
+	PrintArray(array, "原数组")
+	if compare == nil {
+		compare = func(i int, i2 int) bool {
+			return i <= i2
+		}
+	}
+
+	len := len(array)
+	hasSwap := true
+
+	index := 0
+	loopLen := len - 1 - index
+	for hasSwap   {
+		hasSwap = false
+		lastSwapIndex := 0
+		for i := 0; i < loopLen ; i++ {
+			isISmall := compare(array[i], array[i+1])
+			if !isISmall {
+				Swap(&array[i], &array[i+1])
+				hasSwap = true
+				lastSwapIndex = i
+				fmt.Print("[swap index : ", lastSwapIndex , "] ,")
+			}
+		}
+		if hasSwap {
+			loopLen = lastSwapIndex + 1
+		}
+		if loopLen == 1 {
+			hasSwap = false
+		}
+		fmt.Println()
+		index++
+		tip := "第" + strconv.Itoa(index) + "排序"
+		PrintArray(array, tip)
+	}
 }
