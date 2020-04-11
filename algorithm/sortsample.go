@@ -20,22 +20,33 @@ func main() {
 			copy(copyArray, array)
 			sort.BubbleSort(copyArray, nil)
 		}
-	}
 
-
-	{
-		fmt.Println("用例:")
-		array := []int{1,2,3,4,5}
 		{
 			copyArray := make([]int, len(array))
 			copy(copyArray, array)
-			sort.ViolenceSort(copyArray, nil)
+			sort.InsertSort(copyArray, nil)
 		}
 		{
 			copyArray := make([]int, len(array))
 			copy(copyArray, array)
-			sort.BubbleSort(copyArray, nil)
+			sort.InsertSort2(copyArray, nil)
 		}
 	}
+
+
+	//{
+	//	fmt.Println("用例:")
+	//	array := []int{1,2,3,4,5}
+	//	{
+	//		copyArray := make([]int, len(array))
+	//		copy(copyArray, array)
+	//		sort.ViolenceSort(copyArray, nil)
+	//	}
+	//	{
+	//		copyArray := make([]int, len(array))
+	//		copy(copyArray, array)
+	//		sort.BubbleSort(copyArray, nil)
+	//	}
+	//}
 
 }
