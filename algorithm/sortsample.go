@@ -3,13 +3,21 @@ package main
 import (
 	"./sort"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 func main() {
 	{
-		compareFunc := sort.Great
+		compareFunc := sort.Less
 		fmt.Println("用例:")
-		array := []int{1,2,3,4}
+		rand.Seed(time.Now().Unix())
+		maxCount := rand.Intn(1024) + 1024
+		array := make([]int, maxCount)//[]int{1, 3, 5, 7, 0, 2, 4, 6, 9, 8}
+		for index := range array {
+			array[index] = rand.Intn(1024*10)
+		}
+
 		//array := []int{1, 5, 0 , 7, 3}
 		{
 			copyArray := make([]int, len(array))
