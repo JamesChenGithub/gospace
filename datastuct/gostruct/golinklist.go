@@ -54,6 +54,25 @@ func (list *GoLinkList) Insert(value interface{}) *GoLinkListNode {
 	return node
 }
 
+func (list *GoLinkList)Remove(node *GoLinkListNode)  {
+	if node == nil {
+		return
+	}
+	next := list
+	for next != nil {
+		if next.Next == node{
+			break
+		}
+		next = next.Next
+	}
+
+	if next != nil {
+		next.Next = node.Next
+		node.Next = nil
+	}
+
+}
+
 func (list *GoLinkList) InsertAfter(node *GoLinkListNode, value interface{}) (succ bool, listNode *GoLinkListNode, err error) {
 	if node == nil {
 		return false, nil, errors.New("node is nil")
