@@ -5,15 +5,16 @@ import (
 	"fmt"
 )
 
-func fib_vol(n int, stats *sort.GoStats) uint64  {
+
+func fibViolence(n int, stats *sort.GoStats) uint64  {
 	if n <= 1 {
 		return 1
 	}
 
-	return fib_vol(n-1, stats) + fib_vol(n-2, stats)
+	return fibViolence(n-1, stats) + fibViolence(n-2, stats)
 }
 
-func fib_dp(n int, stats *sort.GoStats) uint64  {
+func fibDp(n int, stats *sort.GoStats) uint64  {
 	if n <= 1 {
 		return 1
 	}
@@ -26,7 +27,7 @@ func fib_dp(n int, stats *sort.GoStats) uint64  {
 	return resultMemo[n]
 }
 
-func fib_dp_opt(n int, stats *sort.GoStats) uint64  {
+func fibDpOpt(n int, stats *sort.GoStats) uint64  {
 	if n <= 1 {
 		return 1
 	}
@@ -48,7 +49,7 @@ func main() {
 		fmt.Println("递归计算：斐波那契项前(", fib_num, ")值================")
 		stats := sort.GoStats{}
 		stats.StartStats()
-		result := fib_vol(fib_num, &stats)
+		result := fibViolence(fib_num, &stats)
 		stats.StopStats()
 		stats.PrintResult()
 		fmt.Println("递归计算：斐波那契项前(", fib_num, ")值 : ", result)
@@ -58,7 +59,7 @@ func main() {
 		fmt.Println("DP计算：斐波那契项前(", fib_num, ")值================")
 		stats := sort.GoStats{}
 		stats.StartStats()
-		result := fib_dp(fib_num, &stats)
+		result := fibDp(fib_num, &stats)
 		stats.StopStats()
 		stats.PrintResult()
 		fmt.Println("DP计算：斐波那契项前(", fib_num, ")值 : ", result)
@@ -68,7 +69,7 @@ func main() {
 		fmt.Println("DP计算：斐波那契项前(", fib_num, ")值================")
 		stats := sort.GoStats{}
 		stats.StartStats()
-		result := fib_dp_opt(fib_num, &stats)
+		result := fibDpOpt(fib_num, &stats)
 		stats.StopStats()
 		stats.PrintResult()
 		fmt.Println("DP计算：斐波那契项前(", fib_num, ")值 : ", result)

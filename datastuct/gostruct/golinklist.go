@@ -23,6 +23,9 @@ func (list GoLinkList) Length() int {
 	return len
 }
 
+func (list GoLinkList) Empty() bool {
+	return list.Next == nil
+}
 /**
 在尾部添加
 */
