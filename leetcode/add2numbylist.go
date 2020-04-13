@@ -83,6 +83,8 @@ func addTwoNumbers(l1 gostruct.GoLinkList, l2 gostruct.GoLinkList) *gostruct.GoL
 		if hasEnterOne > 0 {
 			resultList.Append(hasEnterOne)
 		}
+	} else {
+
 	}
 
 
@@ -127,8 +129,8 @@ func convertListToNum(list gostruct.GoLinkList) int64 {
 
 func main() {
 	{
-		num1 := 9234
-		num2 := 2349
+		num1 := -9234
+		num2 := 12349
 		l1 := convertIntToList(num1)
 		l2 := convertIntToList(num2)
 		sum := addTwoNumbers(*l1, *l2)
@@ -136,3 +138,11 @@ func main() {
 		fmt.Println(convertListToNum(*sum))
 	}
 }
+
+// 支持加减乘除
+
+// 衍生多个
+
+// 衍生加减乘除法
+
+// 衍生浮点数加减法
