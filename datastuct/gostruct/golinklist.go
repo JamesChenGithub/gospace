@@ -23,6 +23,9 @@ func (list GoLinkList) Length() int {
 	return len
 }
 
+func (list GoLinkList) Empty() bool {
+	return list.Next == nil
+}
 /**
 在尾部添加
 */
@@ -49,6 +52,25 @@ func (list *GoLinkList) Insert(value interface{}) *GoLinkListNode {
 	node := &GoLinkListNode{value, nextOfNext}
 	list.Next = node
 	return node
+}
+
+func (list *GoLinkList)Remove(node *GoLinkListNode)  {
+	if node == nil {
+		return
+	}
+	next := list
+	for next != nil {
+		if next.Next == node{
+			break
+		}
+		next = next.Next
+	}
+
+	if next != nil {
+		next.Next = node.Next
+		node.Next = nil
+	}
+
 }
 
 func (list *GoLinkList) InsertAfter(node *GoLinkListNode, value interface{}) (succ bool, listNode *GoLinkListNode, err error) {

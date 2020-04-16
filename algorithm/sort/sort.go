@@ -15,6 +15,8 @@ func PrintArray(array []int, tip string) {
 		}
 	}
 	fmt.Println("]")
+
+	//fmt.Println(tip , " : ", array)
 }
 
 func Swap(a *int, b *int) {
