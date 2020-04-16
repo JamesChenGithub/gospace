@@ -2,19 +2,19 @@ package sort
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 func PrintArray(array []int, tip string) {
-	return
-	//fmt.Print(tip, " : [")
-	//len := len(array)
-	//for index, value := range array {
-	//	fmt.Print(value)
-	//	if index != len-1 {
-	//		fmt.Print(", ")
-	//	}
-	//}
-	//fmt.Println("]")
+	fmt.Print(tip, " : [")
+	len := len(array)
+	for index, value := range array {
+		fmt.Print(value)
+		if index != len-1 {
+			fmt.Print(", ")
+		}
+	}
+	fmt.Println("]")
 }
 
 func Swap(a *int, b *int) {
@@ -271,34 +271,106 @@ func ShellSort(array []int, compare func(int, int) bool) {
 
 
 //====================================================
-func partition(array []int, compare func(int, int) bool, left int, right int) int{
-	//pivot := left + (right - left)/2
-	//for i, j := 0; pivot - i >= left && pivot + j <= right ; i--, j++  {
-	//
-	//}
-	return 0
+type PartitionFunc func (array []int, compare func(int, int) bool, left int, right int, stats *GoStats) int
+
+func partitionLeft(array []int, compare func(int, int) bool, left int, right int, stats *GoStats) int{
+	pivot := left
+	index := pivot + 1
+	for i := index; i <= right; i++ {
+		isOK := compare(array[pivot], array[i])
+		stats.CompareCount++
+		//fmt.Printf("compare(array[%d](%d), array[%d](%d)) : %v\n",  pivot, array[pivot], i, array[i],isOK)
+		if !isOK {
+			if i != index {
+				Swap(&array[i], &array[index])
+				stats.SwapCount++
+			}
+			//fmt.Printf("Swap(array[%d](%d), array[%d](%d)) : %v\n", i, array[i], index, array[index], isOK)
+			index++
+		}
+		//PrintArray(array, "partitionLeft")
+	}
+	Swap(&array[pivot], &array[index - 1])
+	stats.SwapCount++
+	//PrintArray(array, "partitionLeft")
+	return index - 1
 }
-func QuickSortInner(array []int, compare func(int, int) bool, left int, right int)  {
+
+func partitionRight(array []int, compare func(int, int) bool, left int, right int, stats *GoStats) int{
+	pivot := right
+	index := pivot - 1
+	for i := index; i >= left; i-- {
+		isOK := compare(array[i], array[pivot])
+		stats.CompareCount++
+		//fmt.Printf("compare(array[%d](%d), array[%d](%d)) : %v\n", i, array[i], pivot, array[pivot], isOK)
+		if !isOK {
+			if i != index {
+				Swap(&array[i], &array[index])
+				stats.SwapCount++
+			}
+			//fmt.Printf("Swap(array[%d](%d), array[%d](%d)) : %v\n", i, array[i], index, array[index], isOK)
+			index--
+		}
+		//PrintArray(array, "partitionRight")
+	}
+	Swap(&array[pivot], &array[index + 1])
+	stats.SwapCount++
+	//PrintArray(array, "partitionRight")
+	return index + 1
+}
+
+func partitionMiddle(array []int, compare func(int, int) bool, left int, right int, stats *GoStats) int{
+	mid := left + (right - left) / 2
+	if left != mid {
+		Swap(&array[left], &array[mid])
+		stats.SwapCount++
+	}
+
+	//PrintArray(array, "partitionMiddle")
+	pivot := partitionLeft(array, compare, left, right, stats)
+	//PrintArray(array, "partitionMiddle")
+	return pivot
+}
+
+func partitionRand(array []int, compare func(int, int) bool, left int, right int, stats *GoStats) int{
+	rand := left + rand.Intn(right - left + 1)
+	pivot := 0
+	if rand == left {
+		pivot = partitionLeft(array, compare, left, right, stats)
+	} else if rand == right {
+		pivot = partitionRight(array, compare, left, right, stats)
+	} else {
+		Swap(&array[left], &array[rand])
+		stats.SwapCount++
+		pivot = partitionLeft(array, compare, left, right, stats)
+	}
+	return pivot
+}
+
+func quickSortInner(array []int, compare func(int, int) bool, left int, right int, stats *GoStats)  {
 	if left < right {
-		pivot := partition(array, compare, left, right)
-		QuickSortInner(array, compare, left, pivot - 1)
-		QuickSortInner(array, compare, pivot + 1, right)
+		parFunc := PartitionFunc(partitionRand)
+		pivot := parFunc(array, compare, left, right, stats)
+		quickSortInner(array, compare, left, pivot - 1, stats)
+		quickSortInner(array, compare, pivot + 1, right, stats)
 	}
 }
 
 func QuickSort(array []int, compare func(int, int) bool) {
 	fmt.Println("======= 快排序:开始 =========")
-	compareCount := 0
-	swapCount := 0
+	stats := GoStats{}
+	stats.StartStats()
 	defer func() {
-		PrintArray(array, "选择结果为")
-		fmt.Println("======= 快排序:结束, 共比较交换:(", compareCount, ",", swapCount, ")次 =========\n\n")
+		PrintArray(array, "排序结果为")
+		stats.StopStats()
+		stats.PrintResult()
+		fmt.Println("======= 快排序:结束 =========")
 	}()
 	PrintArray(array, "原数组")
 	if compare == nil {
 		compare = Less
 	}
 
-	QuickSortInner(array, compare, 0, len(array) - 1)
+	quickSortInner(array, compare, 0, len(array) - 1, &stats)
 }
 

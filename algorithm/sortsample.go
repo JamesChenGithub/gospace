@@ -3,22 +3,20 @@ package main
 import (
 	"./sort"
 	"fmt"
-	"math/rand"
-	"time"
 )
 
 func main() {
 	{
 		compareFunc := sort.Less
 		fmt.Println("用例:")
-		rand.Seed(time.Now().Unix())
-		maxCount := rand.Intn(1024) + 1024
-		array := make([]int, maxCount)//[]int{1, 3, 5, 7, 0, 2, 4, 6, 9, 8}
-		for index := range array {
-			array[index] = rand.Intn(1024*10)
-		}
+		//rand.Seed(time.Now().Unix())
+		//maxCount := rand.Intn(1024) + 1024
+		//array := make([]int, maxCount)//[]int{1, 3, 5, 7, 0, 2, 4, 6, 9, 8}
+		//for index := range array {
+		//	array[index] = rand.Intn(1024*10)
+		//}
 
-		//array := []int{1, 5, 0 , 7, 3}
+		array := []int{1, 3, 5, 7, 0, 2, 4, 6, 9, 8}
 		{
 			copyArray := make([]int, len(array))
 			copy(copyArray, array)
@@ -51,6 +49,12 @@ func main() {
 			copyArray := make([]int, len(array))
 			copy(copyArray, array)
 			sort.ShellSort(copyArray, compareFunc)
+		}
+
+		{
+			copyArray := make([]int, len(array))
+			copy(copyArray, array)
+			sort.QuickSort(copyArray, compareFunc)
 		}
 	}
 
