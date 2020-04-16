@@ -25,7 +25,6 @@ import (
 
 func isNegativeNumList(list gostruct.GoLinkList) bool {
 	next := list.Next
-
 	negative := false
 	for next != nil {
 		if next.Value.(int) < 0 {
@@ -271,12 +270,17 @@ func main() {
 	add2Numbers(-1, -9)
 	add2Numbers(-1, 2)
 	add2Numbers(-1, -1)
+	add2Numbers(-1, 1)
 
 	add2Numbers(-1, -19)
 	add2Numbers(1, 9)
 	add2Numbers(-1, 9)
 
 	add2Numbers(-1232, 291)
+	add2Numbers(-111, 222)
+	add2Numbers(-111, -222)
+	add2Numbers(111, -222)
+	add2Numbers(111, 222)
 	add2Numbers(1232, 291)
 	add2Numbers(1232, 9291)
 

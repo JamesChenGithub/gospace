@@ -5,16 +5,7 @@ import (
 )
 
 func PrintArray(array []int, tip string) {
-	return
-	//fmt.Print(tip, " : [")
-	//len := len(array)
-	//for index, value := range array {
-	//	fmt.Print(value)
-	//	if index != len-1 {
-	//		fmt.Print(", ")
-	//	}
-	//}
-	//fmt.Println("]")
+	fmt.Println(tip , " : ", array)
 }
 
 func Swap(a *int, b *int) {
