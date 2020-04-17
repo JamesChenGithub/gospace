@@ -359,16 +359,16 @@ func quickSortInner(array []int, compare func(int, int) bool, left int, right in
 }
 
 func QuickSort(array []int, compare func(int, int) bool) {
-	fmt.Println("======= 快排序:开始 =========")
+	// fmt.Println("======= 快排序:开始 =========")
 	stats := GoStats{}
 	stats.StartStats()
 	defer func() {
-		PrintArray(array, "排序结果为")
+		//PrintArray(array, "排序结果为")
 		stats.StopStats()
-		stats.PrintResult()
-		fmt.Println("======= 快排序:结束 =========")
+		//stats.PrintResult()
+		//fmt.Println("======= 快排序:结束 =========")
 	}()
-	PrintArray(array, "原数组")
+	//PrintArray(array, "原数组")
 	if compare == nil {
 		compare = Less
 	}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"../algorithm/sort"
 	"errors"
 	"fmt"
 )
@@ -13,6 +14,50 @@ import (
 //左减数字必须为一位，比如8写成VIII，而非IIX。
 //右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）
 //同一数码最多只能连续出现三次，如40不可表示为XXXX，而要表示为XL。
+
+func romanToInt3(s string) (int, error) {
+
+	romanISMap := map[int]string {
+		1 : "I",
+		4 : "IV",
+		5 : "V",
+		9 : "IX",
+		10 : "X",
+		40 : "XL",
+		50 : "L",
+		90 : "XC",
+		100 : "C",
+		400 : "CD",
+		500 : "D",
+		900 : "CM",
+		1000 : "M",
+	}
+
+	romanMap := map[string]int{}
+	for k,v := range romanISMap {
+		romanMap[v] = k
+	}
+
+	retV := 0
+	for i := 0; i < len(s) ;   {
+		ok := false
+		kv := 0
+		if i + 2 <= len(s) {
+			v , k := romanMap[s[i:i+2]]
+			ok = k
+			kv = v
+		}
+
+		if i + 1 < len(s) && ok {
+			retV += kv
+			i += 2
+		} else {
+			retV += romanMap[string(s[i])]
+			i++
+		}
+	}
+	return retV, nil
+}
 
 func romanToInt(s string) (int, error) {
 	romanMap := map[uint8]uint16{
@@ -95,14 +140,110 @@ func intToRoman(value int) (string, error)  {
 	//右加数字不可连续超过三位，比如14写成XIV，而非XIIII。（见下方“数码限制”一项。）
 	//同一数码最多只能连续出现三次，如40不可表示为XXXX，而要表示为XL。
 
-	if value / 1000 > 0 {
+	romanMap := map[int]string {
+		1 : "I",
+		4 : "IV",
+		5 : "V",
+		9 : "IX",
+		10 : "X",
+		40 : "XL",
+		50 : "L",
+		90 : "XC",
+		100 : "C",
+		400 : "CD",
+		500 : "D",
+		900 : "CM",
+		1000 : "M",
+	}
+
+	allKeys := make([]int, len(romanMap))
+	j := 0
+	for key := range romanMap  {
+		allKeys[j] = key
+		j++
+	}
+
+	sort.QuickSort(allKeys, sort.Great)
+
+	str := ""
+
+	i := 0
+	for value > 0  {
+
+		if value - allKeys[i] >= 0  {
+			str += romanMap[allKeys[i]]
+			value = value - allKeys[i]
+		} else {
+			i++
+		}
+	}
+
+
+	return str, nil
+}
+
+func romanToInt2(s string) int {
+	romanMap := map[string]int{
+		"I": 1,
+		"V": 5,
+		"X": 10,
+		"L": 50,
+		"C": 100,
+		"D": 500,
+		"M": 1000,
+		"IV": 4,
+		"IX": 9,
+		"XL": 40,
+		"XC": 90,
+		"CD": 400,
+		"CM": 900,
+	}
+	rlt := 0
+	for i := 0; i < len(s); {
+		okO := false
+		vO := 0
+		if i+2 <= len(s) {
+			v,ok :=romanMap[string(s[i:i+2])]
+			vO = v
+			okO = ok
+		}
+		if i+1 < len(s) && okO {
+			rlt += vO
+			i += 2
+		} else {
+			rlt += romanMap[string(s[i])]
+			i++
+		}
+	}
+	return rlt
+}
+
+
+func main() {
+
+	testRomanFun := func(value int) {
+		str, err := intToRoman(value)
+		if err == nil {
+			v, _ := romanToInt(str)
+			v2 := romanToInt2(str)
+			v3, _ := romanToInt3(str)
+			if v == value && v == v2 && v == v3 {
+				fmt.Println("转换成功", value , " = ", str)
+				return
+			}
+		}
+		fmt.Println("转换失败", value , " = ", str)
 
 	}
 
-	return "", nil
-}
+	//testRomanFun(0)
+	//testRomanFun(4000)
+	testRomanFun(9)
+	for i := 0; i < 4000; i++ {
+		testRomanFun(i)
+	}
 
-func main() {
+
 
 	romanFunc := func(s string) {
 
@@ -129,10 +270,10 @@ func main() {
 	fmt.Println("开始更多地测试===============")
 	// 更多地测试
 	romanTestFunc := func(s string, val int) {
-
 		v, err := romanToInt(s)
-
-		fmt.Println(s , " : ", v, err, "是否正确:" , v == val)
+		v2 := romanToInt2(s)
+		v3, _ := romanToInt3(s)
+		fmt.Println(s , " : ", v, err, "是否正确:" , v == val, "与其他人对比是否正确:", v == v2, "," , v == v3)
 	}
 
 	//罗马数字	数值	拉丁语
@@ -227,12 +368,12 @@ func main() {
 	romanTestFunc("MM", 2000)
 	romanTestFunc("MMM", 3000)
 	romanTestFunc("MMMCCCXXXIII", 3333)
-	//MD	1500
-	//MDCCC	1800
-	//MCM	1900
-	//MM	2000
-	//MMM	3000
-	//MMMCCCXXXIII	3333
+	////MD	1500
+	////MDCCC	1800
+	////MCM	1900
+	////MM	2000
+	////MMM	3000
+	////MMMCCCXXXIII	3333
 
 
 
