@@ -2,6 +2,7 @@ package main
 
 import (
 	"./gostruct"
+	"fmt"
 )
 
 func generateTreeByArray(array []interface{}, index int) *gostruct.BTreeNode {
@@ -28,7 +29,7 @@ func generateTreeByArray(array []interface{}, index int) *gostruct.BTreeNode {
 
 
 func main() {
-	intArray := []int{1,2,3,4,5,6, 7, 8, 1,2,3,4,5,6, 7, 8, }
+	intArray := []int{1,2,3,4,5,6,7,8}
 
 	var interfaceArray = make([]interface{}, len(intArray))
 	for i, d := range intArray  {
@@ -36,5 +37,13 @@ func main() {
 	}
 
 	root := generateTreeByArray(interfaceArray, 0)
-	gostruct.PrintBTree(*root)
+	root.PrintBTree()
+
+	root.PreOrder()
+	root.PreOrder2()
+	root.InOrder()
+	root.InOrder2()
+	root.PostOrder()
+	root.PostOrder2()
+	fmt.Println(root.Height())
 }
